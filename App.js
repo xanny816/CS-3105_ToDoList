@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity} from "react-native";
 import Task from "./components/Task";
 
 export default function App() {
@@ -20,7 +20,10 @@ export default function App() {
   return (
     <View style={styles.container}>
       <View style={styles.sectionContainer}>
-        <Text style={styles.sectionTitle}>Unfinished Tasks</Text>
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>Unfinished Tasks</Text>
+          <Image style={styles.massCheck} source={require('./assets/massCheck.png')}/>
+        </View>
 
         <View style={styles.taskList}>
           {tasks
@@ -37,7 +40,10 @@ export default function App() {
       </View>
 
       <View style={styles.sectionContainer}>
-        <Text style={styles.sectionTitle}>Finished Tasks</Text>
+      <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>Finished Tasks</Text>
+          <Image style={styles.massCheck} source={require('./assets/massCheck.png')}/>
+        </View>
 
         <View style={styles.taskList}>
           {tasks
@@ -64,6 +70,7 @@ const styles = StyleSheet.create({
   },
   sectionContainer: {
     marginBottom: 40,
+    paddingBottom: 50,
     marginHorizontal: 30,
     backgroundColor: "#fff",
     padding: 25,
@@ -74,8 +81,17 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
+  sectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
   sectionTitle: {
     fontSize: 26,
+  },
+  massCheck: {
+    height: 20,
+    width: 20
   },
   taskList: {
     marginTop: 20,
