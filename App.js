@@ -29,6 +29,10 @@ export default function App() {
     }
   };
 
+  const handleDeleteTask = (id) => {
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.sectionContainer}>
@@ -46,6 +50,7 @@ export default function App() {
                 text={task.text}
                 isChecked={task.isChecked}
                 onPress={() => toggleCheckbox(task.id)}
+                onDelete={() => handleDeleteTask(task.id)}
               />
             ))}
         </View>
@@ -78,6 +83,7 @@ export default function App() {
                 text={task.text}
                 isChecked={task.isChecked}
                 onPress={() => toggleCheckbox(task.id)}
+                onDelete={() => handleDeleteTask(task.id)}
               />
             ))}
         </View>

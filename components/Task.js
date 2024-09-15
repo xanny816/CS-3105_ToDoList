@@ -19,7 +19,9 @@ const Task = (props) => {
           {props.text}
         </Text>
       </View>
+      <TouchableOpacity onPress={props.onDelete}>
       <Image style={styles.delete} source={require("../assets/x_sign.png")} />
+      </TouchableOpacity>
     </View>
   );
 };
