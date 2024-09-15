@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity} from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Keyboard} from "react-native";
 import Task from "./components/Task";
 
 export default function App() {
@@ -8,6 +8,7 @@ export default function App() {
     { id: 2, text: "Study Calculus slides", isChecked: false },
     { id: 3, text: "Finish IAS module + activities", isChecked: true },
   ]);
+  const [newTask, setNewTask] = useState("");
 
   const toggleCheckbox = (id) => {
     setTasks((prevTasks) =>
@@ -15,6 +16,17 @@ export default function App() {
         task.id === id ? { ...task, isChecked: !task.isChecked } : task
       )
     );
+  };
+
+  const handleAddTask = () => {
+    if (newTask.trim()) {
+      setTasks((prevTasks) => [
+        ...prevTasks,
+        { id: prevTasks.length + 1, text: newTask, isChecked: false },
+      ]);
+      setNewTask("");
+      Keyboard.dismiss();
+    }
   };
 
   return (
@@ -37,6 +49,18 @@ export default function App() {
               />
             ))}
         </View>
+
+        <View style={styles.addContainer}>
+            <Image style={styles.addSign} source={require('./assets/add_sign.png')}/>
+            <TextInput
+              style={styles.addInput}
+              placeholder="Enter new task"
+              value={newTask}
+              onChangeText={setNewTask}
+              onSubmitEditing={handleAddTask}
+              returnKeyType="done"
+            />
+        </View>
       </View>
 
       <View style={styles.sectionContainer}>
@@ -47,7 +71,7 @@ export default function App() {
 
         <View style={styles.taskList}>
           {tasks
-            .filter((task) => task.isChecked) // Filter out checked tasks
+            .filter((task) => task.isChecked)
             .map((task) => (
               <Task
                 key={task.id}
@@ -96,4 +120,17 @@ const styles = StyleSheet.create({
   taskList: {
     marginTop: 20,
   },
+  addContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  addSign: {
+    height: 20,
+    width: 20,
+    marginRight: 20
+  },
+  addInput:{
+    fontSize: 16,
+    color: '#656565'
+  }
 });
