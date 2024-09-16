@@ -47,6 +47,14 @@ export default function App() {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
   };
 
+  const handleEditTask = (id, newText) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === id ? { ...task, text: newText } : task
+      )
+    );
+  };
+
   const unfinishedTaskIds = tasks
     .filter((task) => !task.isChecked)
     .map((task) => task.id);
@@ -75,10 +83,12 @@ export default function App() {
             .map((task) => (
               <Task
                 key={task.id}
+                id={task.id}
                 text={task.text}
                 isChecked={task.isChecked}
                 onPress={() => toggleCheckbox(task.id)}
                 onDelete={() => handleDeleteTask(task.id)}
+                onEdit={handleEditTask}
               />
             ))}
         </View>
@@ -121,10 +131,12 @@ export default function App() {
               .map((task) => (
                 <Task
                   key={task.id}
+                  id={task.id}
                   text={task.text}
                   isChecked={task.isChecked}
                   onPress={() => toggleCheckbox(task.id)}
                   onDelete={() => handleDeleteTask(task.id)}
+                  onEdit={handleEditTask}
                 />
               ))
           )}

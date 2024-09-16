@@ -1,7 +1,22 @@
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  TextInput,
+} from "react-native";
 
 const Task = (props) => {
+  const [editText, setEditText] = useState(props.text);
+
+  const handleSave = () => {
+    if (editText.trim()) { 
+      props.onEdit(props.id, editText);
+    }
+  };
+
   return (
     <View style={styles.taskContainer}>
       <View style={styles.leftSection}>
@@ -15,12 +30,17 @@ const Task = (props) => {
             }
           />
         </TouchableOpacity>
-        <Text style={[styles.taskText, props.isChecked && styles.checkedText]}>
-          {props.text}
-        </Text>
+        <TextInput
+          style={[styles.taskText, props.isChecked && styles.checkedText]}
+          value={editText}
+          onChangeText={setEditText}
+          onBlur={handleSave}
+          onSubmitEditing={handleSave}
+          returnKeyType="done"
+        />
       </View>
       <TouchableOpacity onPress={props.onDelete}>
-      <Image style={styles.delete} source={require("../assets/x_sign.png")} />
+        <Image style={styles.delete} source={require("../assets/x_sign.png")} />
       </TouchableOpacity>
     </View>
   );
