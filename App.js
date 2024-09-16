@@ -18,6 +18,14 @@ export default function App() {
     );
   };
 
+  const toggleAllTasks = (isCheckedStatus, taskCategory) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) => 
+        taskCategory.includes(task.id) ? {...task, isChecked: isCheckedStatus } : task
+      )
+    );
+  };
+
   const handleAddTask = () => {
     if (newTask.trim()) {
       setTasks((prevTasks) => [
@@ -33,12 +41,17 @@ export default function App() {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
   };
 
+const unfinishedTaskIds = tasks.filter(task => !task.isChecked).map(task => task.id);
+const finishedTaskIds = tasks.filter(task => task.isChecked).map(task => task.id);
+
   return (
     <View style={styles.container}>
       <View style={styles.sectionContainer}>
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Unfinished Tasks</Text>
-          <Image style={styles.massCheck} source={require('./assets/massCheck.png')}/>
+          <TouchableOpacity onPress={() => toggleAllTasks(true, unfinishedTaskIds)}>
+            <Image style={styles.massCheck} source={require('./assets/massCheck.png')}/>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.taskList}>
@@ -71,7 +84,9 @@ export default function App() {
       <View style={styles.sectionContainer}>
       <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Finished Tasks</Text>
-          <Image style={styles.massCheck} source={require('./assets/massCheck.png')}/>
+          <TouchableOpacity onPress={() => toggleAllTasks(false, finishedTaskIds)}>
+            <Image style={styles.massCheck} source={require('./assets/massCheck.png')}/>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.taskList}>
@@ -95,7 +110,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#E8E4C9",
     paddingTop: 80,
   },
   sectionContainer: {
